@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ESTA ES LA ETIQUETA NUEVA QUE PINTA LA BARRA DE ARRIBA DEL COLOR OSCURO -->
     <meta name="theme-color" content="#16171B">
     
-    <title>PuntoGas | El fin de las colas</title>
+    <!-- Favicon (Usa tu logo en assets/logo.png) -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    
+    <title>PuntoGas | Alivio para las colas</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4Z428S74XX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4Z428S74XX');
+    </script>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
@@ -78,7 +91,7 @@
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide">Serán cosas del<br>pasado</h2>
             </div>
 
-            <!-- MOCKUP CORREGIDO: Ahora ocupa el 90% en móvil y se adapta en PC -->
+            <!-- MOCKUP: Ocupa el 90% en móvil y se adapta en PC -->
             <div class="flex justify-center transform hover:scale-105 transition-transform duration-500 w-full">
                 <img src="assets/mockup.png" alt="App PuntoGas" class="w-[90%] mx-auto md:w-auto md:h-[500px] object-contain drop-shadow-2xl">
             </div>
@@ -153,9 +166,8 @@
         </div>
     </footer>
 
-    <!-- SCRIPT DE SUPABASE -->
+    <!-- SCRIPT DE SUPABASE + ANALYTICS -->
     <script>
-        // PEGA AQUÍ TUS CREDENCIALES DE SUPABASE NUEVAMENTE
         const supabaseUrl = 'https://ckidmqolhnhfwwywijkl.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWRtcW9saG5oZnd3eXdpamtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MDMzODAsImV4cCI6MjEwNTE3OTM4MH0.C0p51QsSKSZ4JjxaN19d4MA9tYdXVzsw1oj6nNV_eWQ';
         
@@ -201,6 +213,13 @@
             } else {
                 formContainer.classList.add('hidden');
                 successMsg.classList.remove('hidden');
+
+                // EVENTO DE GOOGLE ANALYTICS: Mide los registros exitosos
+                if (typeof gtag === 'function') {
+                    gtag('event', 'sign_up', {
+                        'method': 'Waitlist Form'
+                    });
+                }
             }
         });
     </script>
