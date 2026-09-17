@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ESTA ES LA ETIQUETA NUEVA QUE PINTA LA BARRA DE ARRIBA DEL COLOR OSCURO -->
+    <meta name="theme-color" content="#16171B">
+    
     <title>PuntoGas | El fin de las colas</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -75,8 +78,9 @@
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wide">Serán cosas del<br>pasado</h2>
             </div>
 
-            <div class="flex justify-center transform hover:scale-105 transition-transform duration-500">
-                <img src="assets/mockup.png" alt="App PuntoGas" class="h-80 md:h-[500px] object-contain drop-shadow-2xl">
+            <!-- MOCKUP CORREGIDO: Ahora ocupa el 90% en móvil y se adapta en PC -->
+            <div class="flex justify-center transform hover:scale-105 transition-transform duration-500 w-full">
+                <img src="assets/mockup.png" alt="App PuntoGas" class="w-[90%] mx-auto md:w-auto md:h-[500px] object-contain drop-shadow-2xl">
             </div>
 
             <div class="flex justify-center lg:justify-end">
@@ -106,7 +110,6 @@
                                 <input type="tel" id="whatsapp-input" placeholder="Whatsapp:" class="glass-input w-full rounded-full py-3 pl-12 pr-4" required>
                             </div>
 
-                            <!-- Botón con ID para cambiar su texto mientras carga -->
                             <button type="submit" id="submit-btn" class="bg-neon text-dark font-black rounded-full py-3 px-8 mt-4 hover:bg-white transition-colors duration-300 transform hover:scale-105 w-full">
                                 Yo quiero
                             </button>
@@ -152,15 +155,14 @@
 
     <!-- SCRIPT DE SUPABASE -->
     <script>
-        // TUS CREDENCIALES
+        // PEGA AQUÍ TUS CREDENCIALES DE SUPABASE NUEVAMENTE
         const supabaseUrl = 'https://ckidmqolhnhfwwywijkl.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWRtcW9saG5oZnd3eXdpamtsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MDMzODAsImV4cCI6MjEwNTE3OTM4MH0.C0p51QsSKSZ4JjxaN19d4MA9tYdXVzsw1oj6nNV_eWQ';
         
-        // SOLUCIÓN: Le cambiamos el nombre a la variable a "supabaseClient"
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Ahora sí va a funcionar y evitará el parpadeo
+            e.preventDefault(); 
             
             const email = document.getElementById('email-input').value.trim();
             const whatsapp = document.getElementById('whatsapp-input').value.trim();
@@ -169,7 +171,6 @@
             const formContainer = document.getElementById('form-container');
             const submitBtn = document.getElementById('submit-btn');
 
-            // 1. Validación de Gmail
             if (!email.toLowerCase().endsWith('@gmail.com')) {
                 errorMsg.textContent = 'Por favor, utiliza una cuenta @gmail.com válida.';
                 errorMsg.classList.remove('hidden');
@@ -180,7 +181,6 @@
             submitBtn.disabled = true;
             errorMsg.classList.add('hidden');
 
-            // 2. Enviar datos a Supabase (USAMOS supabaseClient)
             const { data, error } = await supabaseClient
                 .from('waitlist')
                 .insert([
@@ -190,7 +190,6 @@
             submitBtn.textContent = 'Yo quiero';
             submitBtn.disabled = false;
 
-            // 3. Manejo de Errores
             if (error) {
                 if (error.code === '23505') {
                     errorMsg.textContent = 'Este correo o número de WhatsApp ya está registrado.';
@@ -200,7 +199,6 @@
                 }
                 errorMsg.classList.remove('hidden');
             } else {
-                // 4. Éxito absoluto
                 formContainer.classList.add('hidden');
                 successMsg.classList.remove('hidden');
             }
